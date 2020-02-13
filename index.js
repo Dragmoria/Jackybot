@@ -56,7 +56,7 @@ client.on('message', message => {
     if(message.author.bot)
         return;
     if(message.content.toLowerCase() === 'hello')
-        message.channel.send('Heyo!');
+        message.channel.send('Hey!');
 });
 
 
