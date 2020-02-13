@@ -34,12 +34,8 @@ const checkStatus = (res) => {
 const findId = async function (url, info) {
     fetch(url, info)
     .then(checkStatus)
-    .then((res) => {
-        res.json()
-    })
-    .then((json) => {
-        console.log(json)
-    })
+    .then(res => res.json())
+    .then(json => console.log(json))
 }
 
 const test = findId('https://api.twitch.tv/helix/users?login=Loserfruit', {method: 'GET', headers: headers})
