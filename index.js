@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require("node-fetch");
+const TwitchWebhook = require('twitch-webhook');
 require('dotenv').config();
 
 const prefix = "&";
@@ -19,7 +20,7 @@ const client = new Discord.Client();
 
 const headers = {
     'Client-ID': envVar.twitchClientId
-}
+};
 
 const checkStatus = (res) => {
     if (res.ok) {
@@ -30,7 +31,7 @@ const checkStatus = (res) => {
         throw MyCustomError(res.statusText);
     }
 }
-
+/*
 const findId = async function (url, info) {
     fetch(url, info)
     .then(checkStatus)
@@ -38,7 +39,33 @@ const findId = async function (url, info) {
     .then(json => console.log(json))
 }
 
-const test = findId('https://api.twitch.tv/helix/users?login=Loserfruit', {method: 'GET', headers: headers})
+const test = findId('https://api.twitch.tv/helix/users?login=UndefinedNO', {method: 'GET', headers: headers})
+*/
+const getId = async function (url, info) {
+    const json = await fetch(url, info);
+    console.log(json);
+
+    return json.map(data => ({
+        id: data[0].id,
+        login: data[0].login
+    }))
+};
+
+
+
+(async function () { 
+    try { 
+        const people = await getId('https://api.twitch.tv/helix/users?login=UndefinedNO', {method: 'GET', headers: headers})
+        console.log(people);
+    } catch (e) {
+        console.log("error: ", e)
+    }
+})
+
+
+
+
+
 
 
 
