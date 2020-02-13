@@ -18,12 +18,33 @@ const client = new Discord.Client();
 //${envVar.twitchClientId}
 
 const headers = {
-    Client_ID: envVar.twitchClientId
+    'Client-ID': envVar.twitchClientId
 }
 
-fetch('https://api.twitch.tv/helix/users?login=UndefinedNO', {method: 'GET', headers: headers})
-    .then(res => res.json())
-    .then(json => console.log(json))
+const checkStatus = (res) => {
+    if (res.ok) {
+        console.log(res.statusText);
+        return res;
+    }
+    else {
+        throw MyCustomError(res.statusText);
+    }
+}
+
+const findId = async function (url, info) {
+    fetch(url, info)
+    .then(checkStatus)
+    .then((res) => {
+        res.json()
+    })
+    .then((json) => {
+        const id = json.data[0].id;
+        return id;
+    })
+}
+
+const test = findId('https://api.twitch.tv/helix/users?login=Loserfruit', {method: 'GET', headers: headers})
+
 
 
 //discord message related
@@ -37,7 +58,6 @@ client.on('message', message => {
     if(message.content.toLowerCase() === 'hello')
         message.channel.send('Heyo!');
 });
-
 
 
 //envVar.discordToken
