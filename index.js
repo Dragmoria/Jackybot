@@ -38,8 +38,7 @@ const findId = async function (url, info) {
         res.json()
     })
     .then((json) => {
-        const id = json.data[0].id;
-        return id;
+        console.log(json)
     })
 }
 
